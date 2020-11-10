@@ -14,10 +14,9 @@ import java.util.logging.Logger;
  */
 public class Personal implements Runnable {
 
-    private String nombre;
-    private Saludo saludo;
-    private boolean esJefe;
-    private int numEmp;
+    String nombre;
+    Saludo saludo;
+    boolean esJefe;
 
     Personal(Saludo s, String n) {
         esJefe = false;
@@ -25,27 +24,5 @@ public class Personal implements Runnable {
         saludo = s;
     }
 
-    Personal(Saludo s, String n, int x) {
-        esJefe = true;
-        nombre = n;
-        saludo = s;
-        numEmp = x;
-    }
-
-    public void run() {
-        System.out.println("(" + nombre + " llega)");
-        if (esJefe) {
-            try {
-                System.out.println("(Esperando...)");
-                saludo.esperarEmpleados(numEmp);
-                saludo.saludoJefe();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Personal.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            saludo.avisarAJefe();
-            saludo.esperarJefe(nombre);
-            saludo.avisarMain();
-        }
-    }
+    public void run() {}
 }
