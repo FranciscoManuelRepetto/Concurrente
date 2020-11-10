@@ -17,19 +17,22 @@ public class TestSaludo {
     public static void main(String argv[]) {
         try {
             String[] nombresEmpleados = {"Pablo", "Luis", "Andrea",
-                "Pedro", "Paula"};
+                "Pedro", "Paula","Tincho","Sele","ElManu","Fran","Selena"};
             Saludo hola = new Saludo();
-            Thread[] elPersonal = new Thread[6];
-            elPersonal[0] = new Thread(new Personal(hola, "JEFE", 5));
-            for (int i = 1; i < 6; i++) {
-                elPersonal[i] = new Thread(new Personal(hola,
-                        nombresEmpleados[i - 1]));
+            int cantEmpleados = 10;
+            Thread[] elPersonal = new Thread[cantEmpleados];
+            Thread jefe = new Thread(new Jefe(cantEmpleados,hola, "JEFE"));
+            for (int i = 0; i < elPersonal.length; i++) {
+                elPersonal[i] = new Thread(new Empleado(hola,
+                        nombresEmpleados[i]));
             }
-            for (int i = 0; i < 6; i++) {
+            jefe.start();
+            for (int i = 0; i < elPersonal.length; i++) {
                 elPersonal[i].start();
             }
-            
+
             /*//SOLUCION 1
+            jefe.join();
             for (int i = 0; i < 6; i++) {
                 elPersonal[i].join();
             }
@@ -37,8 +40,9 @@ public class TestSaludo {
              */
             
             //Solucion 2
-            hola.esperarMain(elPersonal.length-1);
+            hola.esperarMain(elPersonal.length - 1);
             System.out.println("LISTO, ahora que todos han saludado - a trabajar");
+
         } catch (InterruptedException ex) {
             Logger.getLogger(TestSaludo.class.getName()).log(Level.SEVERE, null, ex);
         }
